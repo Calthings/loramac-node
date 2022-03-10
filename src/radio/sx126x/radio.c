@@ -923,8 +923,8 @@ static uint32_t RadioGetGfskTimeOnAirNumerator( uint32_t datarate, uint8_t coder
              ( syncWordLength << 3 ) +
              ( ( payloadLen +
                ( addrComp == RADIO_ADDRESSCOMP_FILT_OFF ? 0 : 1 ) +
-               ( ( crcOn == true ) ? 2 : 0 ) 
-               ) << 3 
+               ( ( crcOn == true ) ? 2 : 0 )
+               ) << 3
              );
 }
 
@@ -1063,8 +1063,8 @@ void RadioStandby( void )
 
 void RadioRx( uint32_t timeout )
 {
-    SX126xSetDioIrqParams( IRQ_RADIO_ALL, //IRQ_RX_DONE | IRQ_RX_TX_TIMEOUT,
-                           IRQ_RADIO_ALL, //IRQ_RX_DONE | IRQ_RX_TX_TIMEOUT,
+    SX126xSetDioIrqParams( /*IRQ_RADIO_ALL,*/ IRQ_RX_DONE | IRQ_RX_TX_TIMEOUT,
+                           /*IRQ_RADIO_ALL,*/ IRQ_RX_DONE | IRQ_RX_TX_TIMEOUT,
                            IRQ_RADIO_NONE,
                            IRQ_RADIO_NONE );
 
@@ -1281,6 +1281,8 @@ void RadioIrqProcess( void )
 
         if( ( irqRegs & IRQ_RX_DONE ) == IRQ_RX_DONE )
         {
+            printf("RxD 1\n");
+
             TimerStop( &RxTimeoutTimer );
 
             if( ( irqRegs & IRQ_CRC_ERROR ) == IRQ_CRC_ERROR )
